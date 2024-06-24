@@ -1,0 +1,86 @@
+JDX_DATABASE JDX:jdbc:mysql://localhost:3306/akhil;USER=root;PASSWORD=a19082004;JDX_DBTYPE=MYSQL;DEBUG_LEVEL=5
+JDX_OBJECT_MODEL_PACKAGE com.akhil.reversed.files
+JDBC_DRIVER com.mysql.cj.jdbc.Driver
+JDX_GENERATE_ACCESSOR_METHODS TRUE
+JDX_GENERATE_JSON_MAPPINGS TRUE
+;
+
+CLASS .Order TABLE orders
+    VIRTUAL_ATTRIB status ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB order_date ATTRIB_TYPE java.sql.Timestamp
+    VIRTUAL_ATTRIB customer_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB order_id ATTRIB_TYPE int
+    PRIMARY_KEY order_id 
+    RELATIONSHIP listOrderItem REFERENCES .ListOrderItem BYVALUE WITH order_id 
+    SQLMAP FOR status NULLABLE
+;
+COLLECTION_CLASS .ListOrder COLLECTION_TYPE ARRAY ELEMENT_CLASS .Order ELEMENT_TABLE orders
+    PRIMARY_KEY customer_id 
+;
+COLLECTION_CLASS .ListUserProfile3 COLLECTION_TYPE ARRAY ELEMENT_CLASS .UserProfile ELEMENT_TABLE userprofiles
+    PRIMARY_KEY user_id 
+;
+CLASS .UserProfile TABLE userprofiles
+    VIRTUAL_ATTRIB profile_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB date_of_birth ATTRIB_TYPE java.util.Date
+    VIRTUAL_ATTRIB user_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB address ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB phone_number ATTRIB_TYPE java.lang.String
+    PRIMARY_KEY profile_id 
+    SQLMAP FOR date_of_birth NULLABLE
+    SQLMAP FOR address NULLABLE
+    SQLMAP FOR phone_number NULLABLE
+;
+COLLECTION_CLASS .UserProfile2 COLLECTION_TYPE ARRAY ELEMENT_CLASS .UserProfile ELEMENT_TABLE userprofiles
+    PRIMARY_KEY user_id 
+;
+CLASS .OrderItem TABLE orderitems
+    VIRTUAL_ATTRIB order_item_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB product_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB price ATTRIB_TYPE java.math.BigDecimal
+    VIRTUAL_ATTRIB quantity ATTRIB_TYPE int
+    VIRTUAL_ATTRIB order_id ATTRIB_TYPE int
+    PRIMARY_KEY order_item_id 
+;
+CLASS .Customer TABLE customers
+    VIRTUAL_ATTRIB phone ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB last_name ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB email ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB first_name ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB customer_id ATTRIB_TYPE int
+    PRIMARY_KEY customer_id 
+    RELATIONSHIP listOrder REFERENCES .ListOrder2 BYVALUE WITH customer_id 
+    SQLMAP FOR phone NULLABLE
+;
+COLLECTION_CLASS .ListOrder2 COLLECTION_TYPE ARRAY ELEMENT_CLASS .Order ELEMENT_TABLE orders
+    PRIMARY_KEY customer_id 
+;
+COLLECTION_CLASS .ListOrderItem COLLECTION_TYPE ARRAY ELEMENT_CLASS .OrderItem ELEMENT_TABLE orderitems
+    PRIMARY_KEY order_id 
+;
+COLLECTION_CLASS .ListUserProfile COLLECTION_TYPE ARRAY ELEMENT_CLASS .UserProfile ELEMENT_TABLE userprofiles
+    PRIMARY_KEY user_id 
+;
+CLASS .User TABLE users
+    VIRTUAL_ATTRIB USER ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB username ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB CURRENT_CONNECTIONS ATTRIB_TYPE long
+    VIRTUAL_ATTRIB email ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB TOTAL_CONNECTIONS ATTRIB_TYPE long
+    VIRTUAL_ATTRIB MAX_SESSION_TOTAL_MEMORY ATTRIB_TYPE long
+    VIRTUAL_ATTRIB MAX_SESSION_CONTROLLED_MEMORY ATTRIB_TYPE long
+    VIRTUAL_ATTRIB password ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB user_id ATTRIB_TYPE int
+    PRIMARY_KEY user_id 
+    RELATIONSHIP listUserProfile REFERENCES .ListUserProfile3 BYVALUE WITH user_id 
+    SQLMAP FOR USER NULLABLE
+;
+
+
+CLASS com.akhil.reversed.Category TABLE categories
+    VIRTUAL_ATTRIB name ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB category_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB description ATTRIB_TYPE java.lang.String
+    PRIMARY_KEY category_id 
+    SQLMAP FOR description NULLABLE
+;
