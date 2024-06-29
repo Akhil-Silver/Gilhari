@@ -1,6 +1,8 @@
-./src/Order.java
 ./src/Category.java
-./src/Customer.java
-./src/OrderItem.java
-./src/User.java
 ./src/UserProfile.java
+./src/OrderItem.java
+./src/Order.java
+./src/User.java
+./src/Customer.java
+
+

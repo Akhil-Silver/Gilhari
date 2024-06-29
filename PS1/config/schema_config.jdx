@@ -1,0 +1,72 @@
+JDX_DATABASE JDX:jdbc:mysql://host.docker.internal:3306/akhil?useSSL=true;allowPublicKeyRetrieval=true;USER=root;PASSWORD=a19082004;JDX_DBTYPE=MYSQL;DEBUG_LEVEL=3
+JDBC_DRIVER com.mysql.cj.jdbc.Driver
+JDX_OBJECT_MODEL_PACKAGE com.akhil.reversed
+
+CLASS .Category TABLE categories
+    VIRTUAL_ATTRIB name ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB category_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB description ATTRIB_TYPE java.lang.String
+    PRIMARY_KEY category_id 
+    SQLMAP FOR description NULLABLE
+;
+
+CLASS .User TABLE users
+    VIRTUAL_ATTRIB username ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB email ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB password ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB user_id ATTRIB_TYPE int
+    PRIMARY_KEY user_id 
+    RELATIONSHIP userProfile REFERENCES .UserProfile REFERENCED_KEY parentId WITH user_id
+    SQLMAP FOR username NULLABLE
+;
+
+CLASS .UserProfile TABLE userprofiles
+    VIRTUAL_ATTRIB profile_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB date_of_birth ATTRIB_TYPE java.util.Date
+    VIRTUAL_ATTRIB user_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB address ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB phone_number ATTRIB_TYPE java.lang.String
+    PRIMARY_KEY user_id
+    REFERENCE_KEY parentId user_id
+    SQLMAP FOR date_of_birth NULLABLE
+    SQLMAP FOR address NULLABLE
+    SQLMAP FOR phone_number NULLABLE
+;
+
+CLASS .OrderItem TABLE orderitems
+    VIRTUAL_ATTRIB order_item_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB product_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB price ATTRIB_TYPE java.math.BigDecimal
+    VIRTUAL_ATTRIB quantity ATTRIB_TYPE int
+    VIRTUAL_ATTRIB order_id ATTRIB_TYPE int
+    PRIMARY_KEY order_item_id 
+;
+
+CLASS .Order TABLE orders
+    VIRTUAL_ATTRIB status ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB order_date ATTRIB_TYPE java.sql.Timestamp
+    VIRTUAL_ATTRIB customer_id ATTRIB_TYPE int
+    VIRTUAL_ATTRIB order_id ATTRIB_TYPE int
+    PRIMARY_KEY order_id 
+    RELATIONSHIP listOrderItem REFERENCES ListOrderItem BYVALUE WITH order_id 
+    SQLMAP FOR status NULLABLE
+;
+COLLECTION_CLASS ListOrderItem COLLECTION_TYPE ARRAY ELEMENT_CLASS .OrderItem
+    PRIMARY_KEY order_id 
+;
+
+
+CLASS .Customer TABLE customers
+    VIRTUAL_ATTRIB phone ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB last_name ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB email ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB first_name ATTRIB_TYPE java.lang.String
+    VIRTUAL_ATTRIB customer_id ATTRIB_TYPE int
+    PRIMARY_KEY customer_id 
+    RELATIONSHIP listOrder REFERENCES ListOrder BYVALUE WITH customer_id 
+    SQLMAP FOR phone NULLABLE
+;
+COLLECTION_CLASS ListOrder COLLECTION_TYPE ARRAY ELEMENT_CLASS .Order
+    PRIMARY_KEY customer_id 
+;
+

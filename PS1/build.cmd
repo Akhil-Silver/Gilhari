@@ -1,0 +1,1 @@
+docker build -t gilhari_microservice:1.0 .

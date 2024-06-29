@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import com.softwaretree.jdx.JDX_JSONObject;
 
 public class User extends JDX_JSONObject {
-    private  UserProfile UserProfile;
+    private UserProfile userProfile;
 
     public User() {
         super();
